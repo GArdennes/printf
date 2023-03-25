@@ -1,69 +1,61 @@
 #include "test.h"
 
-int _putchar(char c)
+int _strlen(char *c)
 {
-	return (write(1, &c, 1));
+	int len;
+	while (c[len] != '\0')
+		len++;
+	return (len);
 }
 
-int _printprc(const char *format)
+int _printprc(char *format, int *i)
 {
-	int i = 0;
-	_putchar(*format);
-	return (i++);
+	write(1, &format[*i], 1);
+	*i += 1;
+	return (1);
 }
 
-int _printchar(int c)
+int _printchar(int c, int *i)
 {
-	int i = 0;
-	_putchar(c);
-	return(i++);
+	write(1, &c, 1);
+	*i += 1;
+	return(1);
 }
 
-int _printstr(char *c)
+int _printstr(char *c, int *i)
 {
-	int i = 0;
-	while (*c != '\0')
-	{
-		_putchar(*c++);
-		i++;
-	}
-	return (i);
+	int len = _strlen(c);
+	write(1, c, len);
+	*i += len;
+	return (1);
 }
 
 int _printf(const char *format, ...)
 {
-	struct specifier{
-		char type;
-	};
-
-	struct specifier conv;
 	int i = 0;
-	int j = 0;
 	va_list args;
 
 	va_start(args, format);
 	if (format == NULL)
 		return (i);
 
-	while (format[j] != '\0')
+	while (*format)
 	{
-		if (format[j] != '%')
+		if (*format != '%')
 		{
-			_putchar(format[j]);
-			i++;
+			i += write(1, format, 1);
 		}
 		else
 		{
 			format++;
-			conv.type = *format;
-			if (conv.type == '%')
-				i += _printprc(&format[j]);
-			else if (conv.type == 'c')
-				i += _printchar(va_arg(args, int));
-			else if (conv.type == 's')
-				i += _printstr(va_arg(args, char *));
+			if (*format == '%')
+				i += _printprc((char *)format, &i);
+			else if (*format == 'c')
+				i += _printchar(va_arg(args, int), &i);
+			else if (*format == 's')
+				i += _printstr(va_arg(args, char *), &i);
 		}
-		j++;
+		format++;
 	}
 	va_end(args);
 	return (i);
