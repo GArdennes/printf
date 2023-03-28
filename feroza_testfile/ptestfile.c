@@ -1,11 +1,9 @@
 #include "maintest.h"
-
 int _printf(const char *format, ...)
 {
 va_list args;
 int chars_written = 0;
 char buffer[1024];
-
 va_start(args, format);
 while (*format != '\0')
 {
@@ -37,7 +35,23 @@ break;
 }
 case 'd':
 {
-d_spec(va_arg(args, int));
+    int num = va_arg(args, int);
+    char num_str[20];
+    int i = 0;
+    if (num < 0) {
+        buffer[chars_written++] = '-';
+        num = -num;
+    }
+    if (num == 0) {
+        num_str[i++] = '0';
+    }
+    while (num > 0) {
+        num_str[i++] = num % 10 + '0';
+        num /= 10;
+    }
+    while (i > 0) {
+        buffer[chars_written++] = num_str[--i];
+    }
 break;
 }
 default:
