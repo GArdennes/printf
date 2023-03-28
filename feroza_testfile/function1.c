@@ -1,4 +1,4 @@
-#include "maintest.h"
+#include "main.h"
 /**
 * print_char - prints a single character
 * @args: va_list of arguments
