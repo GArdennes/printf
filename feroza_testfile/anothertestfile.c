@@ -5,17 +5,18 @@
 int _printf(const char *format, ...)
 {
     va_list args;
-    va_start(args, format);
     int chars_written;
+    char buffer[1024];
+    int i;
 
+    va_start(args, format);
     chars_written = 0;
-    char buffer[1024];  // local buffer for write optimization
-
+    
     while (*format != '\0') {
         if (*format == '%') {
-            format++;  // move past the '%'
+            format++;  /* move past the '%'*/
 
-            // handle the conversion specifier
+            /* handle the conversion specifier*/
             switch (*format) {
                 case 'c': {
                     char c = va_arg(args, int);
@@ -24,7 +25,7 @@ int _printf(const char *format, ...)
                 }
                 case 's': {
                     char *s = va_arg(args, char *);
-                    for (int i = 0; s[i] != '\0'; i++) {
+                    for (i = 0; s[i] != '\0'; i++) {
                         buffer[chars_written++] = s[i];
                     }
                     break;
@@ -34,7 +35,7 @@ int _printf(const char *format, ...)
                     break;
                 }
                 default: {
-                    // unknown conversion specifier, ignore
+                    /* unknown conversion specifier, ignore*/
                     break;
                 }
             }
@@ -42,16 +43,16 @@ int _printf(const char *format, ...)
             buffer[chars_written++] = *format;
         }
 
-        // flush buffer if full
+        /* flush buffer if full*/
         if (chars_written == 1024) {
             write(1, buffer, chars_written);
             chars_written = 0;
         }
 
-        format++;  // move to next character in format string
+        format++;  /* move to next character in format string*/
     }
 
-    // flush remaining characters in buffer
+    /* flush remaining characters in buffer*/
     if (chars_written > 0) {
         write(1, buffer, chars_written);
     }
