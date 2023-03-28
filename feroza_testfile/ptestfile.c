@@ -4,58 +4,61 @@
 
 int _printf(const char *format, ...)
 {
-    va_list args;
-    va_start(args, format);
+va_list args;
+int chars_written = 0;
+char buffer[1024];
 
-    int chars_written = 0;
-    char buffer[1024];  // local buffer for write optimization
+va_start(args, format);
 
-    while (*format != '\0') {
-        if (*format == '%') {
-            format++;  // move past the '%'
+while (*format != '\0')
+{
+if (*format == '%') {
+format++;  /* move past the '%' */
 
-            // handle the conversion specifier
-            switch (*format) {
-                case 'c': {
-                    char c = va_arg(args, int);
-                    buffer[chars_written++] = c;
-                    break;
-                }
-                case 's': {
-                    char *s = va_arg(args, char *);
-                    for (int i = 0; s[i] != '\0'; i++) {
-                        buffer[chars_written++] = s[i];
-                    }
-                    break;
-                }
-                case '%': {
-                    buffer[chars_written++] = '%';
-                    break;
-                }
-                default: {
-                    // unknown conversion specifier, ignore
-                    break;
-                }
-            }
-        } else {
-            buffer[chars_written++] = *format;
-        }
+switch (*format)
+{
+case 'c': {
+char c = (char) va_arg(args, int);
+buffer[chars_written++] = c;
+break;
+}
+case 's':
+{
+char *s = va_arg(args, char *);
+int i;
+for (i = 0; s[i] != '\0'; i++) {
+buffer[chars_written++] = s[i];
+}
+break;
+}
+case '%':
+{
+buffer[chars_written++] = '%';
+break;
+}
+default:
+{
+break;
+}
+}
+} else
+{
+buffer[chars_written++] = *format;
+}
 
-        // flush buffer if full
-        if (chars_written == 1024) {
-            write(1, buffer, chars_written);
-            chars_written = 0;
-        }
+if (chars_written == 1024) {
+write(1, buffer, chars_written);
+chars_written = 0;
+}
 
-        format++;  // move to next character in format string
-    }
+format++;
+}
 
-    // flush remaining characters in buffer
-    if (chars_written > 0) {
-        write(1, buffer, chars_written);
-    }
+if (chars_written > 0) {
+write(1, buffer, chars_written);
+}
 
-    va_end(args);
-    return chars_written;
+va_end(args);
+return chars_written;
 }
 
