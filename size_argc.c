@@ -1,12 +1,12 @@
 #include "main.h"
 
 /**
- * size_argc - Calculates the size to cast the argument
+ * get_size - Calculates the size to cast the argument
  * @format: formated string
  * @i: list of arg
  * Return: Result
  */
-int size_argc(const char *format, int *i)
+int get_size(const char *format, int *i)
 {
 	int c = *i + 1;
 	int size = 0;

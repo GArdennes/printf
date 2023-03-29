@@ -1,15 +1,15 @@
 #include "main.h"
 
 /**
- * type_print - prints an argument based on the type
+ * handle_print - prints an argument based on the type
  * @fmt: formatted string
- * @list: list of arguments
+ * @lst: list of arguments
  * @ind: Number to check
- * @buffer: Buffer array
- * @flags: Calc flags
- * @width: width
- * @precision: Precision
- * @size: size
+ * @bfr: Buffer array
+ * @flgs: Calc flags
+ * @wdth: width
+ * @prcsion: Precision
+ * @sze: size
  * Return: 1 on success
  */
 

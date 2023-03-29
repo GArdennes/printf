@@ -1,13 +1,13 @@
 #include "main.h"
 
 /**
- * _width - Calculates the width
+ * get_width - Calculates the width
  * @format: Formatted string
  * @i: List of args
  * @list: List of args
  * Return: result
  */
-int _width(const char *format, int *i, va_list list)
+int get_width(const char *format, int *i, va_list list)
 {
 	int c;
 	int w = 0;
